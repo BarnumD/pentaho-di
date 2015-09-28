@@ -1,0 +1,25 @@
+#!/usr/bin/expect
+set pgpwd [lindex $argv 0];
+set pupwd [lindex $argv 1];
+set hupwd [lindex $argv 2];
+set jcrpwd [lindex $argv 3];
+
+spawn /scripts/initialize_pentaho_database.sh
+set count 0
+while {$count < 20 } {
+  expect {           
+    "Password for user postgresadm:" {
+        send "$pgpwd\r";
+    } "Password for user pentaho_user:" {
+        send "$pupwd\r";
+    } "Password for user hibuser:" {
+        send "$hupwd\r";
+    } "Password for user jcr_user:" {
+        send "$jcrpwd\r";
+    } eof {
+		#break
+        exit
+    }
+  }
+  set count [expr $count+1];
+}

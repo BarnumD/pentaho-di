@@ -1,0 +1,11 @@
+<AutomatedInstallation langpack="eng">
+    <com.izforge.izpack.panels.LicencePanel/>
+    <!-- com.pentaho.engops.eula.izpack.PentahoHTMLLicencePanel -->
+    <com.izforge.izpack.panels.install.InstallPanel/>
+    <com.izforge.izpack.panels.target.TargetPanel>
+      <installpath>/tmp/components</installpath>
+    </com.izforge.izpack.panels.target.TargetPanel>
+    <com.izforge.izpack.panels.InstallPanel/>
+    <com.izforge.izpack.panels.ProcessPanel/>
+    <com.izforge.izpack.panels.FinishPanel/>
+</AutomatedInstallation>
