@@ -1,5 +1,5 @@
 # Pentaho-DI
-Dockerized implementation of Pentaho DI (Data Integration).  This configuration uses the 'archive' mode of installation.
+Dockerized implementation of Pentaho DI (Data Integration) Enterprise Edition.  This configuration uses the 'archive' mode of installation.
 
 # To Run:
 <ul>Clone this repository</ul>
