@@ -91,7 +91,7 @@ RUN mkdir -p /etc/service/pentaho; \
 
 #Cleanup
 RUN apt-get clean; \
-	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+	rm -rf /var/lib/apt/lists/* /var/tmp/*
 	
 #We use baseimage-docker's my_init process.
 CMD ["/sbin/my_init"]
