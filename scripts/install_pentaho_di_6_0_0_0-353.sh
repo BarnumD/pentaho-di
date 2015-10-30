@@ -2,19 +2,19 @@
 
 #Double check if Pentaho is installed at all.
 if [ ! -d "/opt/pentaho/server/data-integration-server" ]; then
-  #Install Pentaho DI Server at version 5.4.0.1-130
+  #Install Pentaho DI Server at version 6.0.0.0-353
   
   # Components to be installed
   COMPONENTS="pdi-ee"
   PLUGINS=""
-  PENTAHO_VERSION="5.4.0.1"
-  PENTAHO_PATCH="130"
+  PENTAHO_VERSION="6.0.0.0"
+  PENTAHO_PATCH="353"
   PENTAHO_HOME="/opt/pentaho"
 
   ##################################
   # Bring down and install Pentaho #
   ##################################
-  ## Get PBA EE - 2 options
+  ## Get PDI EE - 2 options
   echo "Downloading packages.  This could take some time.";
   #1. Get from FTP (slow & requires credentials)
   #ENV USER=USER PASS=PASS
@@ -22,7 +22,7 @@ if [ ! -d "/opt/pentaho/server/data-integration-server" ]; then
   #2. Get from dropbox.
   ### Download Pentaho Business Analytics & plugins   --- (Don't have pwd for ftp, above.  Used dropbox instead.)
   cd /tmp/pentaho;
-  if [ ! -f "pdi-ee-5.4.0.1-130-dist.zip" ]; then wget --progress=dot -qO pdi-ee-5.4.0.1-130-dist.zip https://file.location.to/pdi-ee-5.4.0.1-130-dist.zip; fi
+  if [ ! -f "pdi-ee-6.0.0.0-353-dist.zip" ]; then wget --progress=dot -qO pdi-ee-6.0.0.0-353-dist.zip https://file.location.to/pdi-ee-6.0.0.0-353-dist.zip; fi
   
  
 
@@ -30,7 +30,7 @@ if [ ! -d "/opt/pentaho/server/data-integration-server" ]; then
   for PKG in $(echo ${COMPONENTS} | tr ':' '\n'); \
   do echo "Unzipping $PKG-${PENTAHO_VERSION}-${PENTAHO_PATCH}-dist.zip...";
     unzip -q /tmp/pentaho/$PKG-${PENTAHO_VERSION}-${PENTAHO_PATCH}-dist.zip -d /tmp/pentaho;
-	echo "$PKG-${PENTAHO_VERSION}-${PENTAHO_PATCH}" > /opt/pentaho/pentaho_di_installed_version.txt
+	echo "$PKG-${PENTAHO_VERSION}-${PENTAHO_PATCH}" > $PENTAHO_HOME/automation/pentaho_di_installed_version.txt
     rm -rf /tmp/pentaho/$PKG-${PENTAHO_VERSION}-${PENTAHO_PATCH}-dist.zip;
   done
 
@@ -60,11 +60,6 @@ if [ ! -d "/opt/pentaho/server/data-integration-server" ]; then
   sed -r -i -- "s:\.\./logs/pentaho.log:$CATALINA_HOME/logs/pentaho.log:g" $PENTAHO_HOME/server/data-integration-server/tomcat/webapps/pentaho-di/WEB-INF/classes/log4j.xml
   sed -r -i -- "s:\.\./logs/osgi_pentaho.log:$CATALINA_HOME/logs/osgi_pentaho.log:g" $PENTAHO_HOME/server/data-integration-server/pentaho-solutions/system/osgi/log4j.xml
 
-  #*********************************
-  #*  Configure JDBC Drivers       *
-  #*********************************
-  #mv /tmp/build/sqljdbc4.jar $PENTAHO_HOME/server/data-integration-server/tomcat/lib/; \
-  #chown -R pentaho:pentaho $PENTAHO_HOME/server/data-integration-server/tomcat/lib/
   
   #Done installing pentaho DI.
 else

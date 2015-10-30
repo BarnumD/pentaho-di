@@ -11,9 +11,9 @@ if [ "$PGHOST" ]; then
     exit 0
   fi
 
-  CHK_DI_QUARTZ=`echo "$(psql -U $PGUSER  -h $PGHOST -d $PGDATABASE -l | grep di_quartz | wc -l)"`
-  CHK_DI_HIBERNATE=`echo "$(psql -U $PGUSER  -h $PGHOST -d $PGDATABASE -l | grep di_hibernate | wc -l)"`
-  CHK_DI_JCR=`echo "$(psql -U $PGUSER  -h $PGHOST -d $PGDATABASE -l | grep di_jackrabbit | wc -l)"`
+  CHK_DI_QUARTZ=`echo "$(psql -U $PGUSER  -h $PGHOST -d $PGDATABASE -l | egrep '^\sdi_quartz' | wc -l)"`
+  CHK_DI_HIBERNATE=`echo "$(psql -U $PGUSER  -h $PGHOST -d $PGDATABASE -l | egrep '^\sdi_hibernate' | wc -l)"`
+  CHK_DI_JCR=`echo "$(psql -U $PGUSER  -h $PGHOST -d $PGDATABASE -l | egrep '^\sdi_jackrabbit' | wc -l)"`
 
   echo "di_quartz: $CHK_DI_QUARTZ"
   echo "hibernate: $CHK_DI_HIBERNATE"
@@ -36,11 +36,10 @@ if [ "$PGHOST" ]; then
   if [ "$CHK_DI_QUARTZ" -eq "0" ]; then
   	#Update password
     sed -i -- "s:password:$pentaho_user_pwd:g" $PENTAHO_HOME/server/data-integration-server/data/postgresql/create_quartz_postgresql.sql
-
-    #Create jackrabbit db.
+    #Create Quartz db.
     psql -U $PGUSER -h $PGHOST -d $PGDATABASE -f $PENTAHO_HOME/server/data-integration-server/data/postgresql/create_quartz_postgresql.sql
 	
-	# Sample data
+	# Pentaho Operations Mart 
     psql -U $PGUSER -h $PGHOST -d $PGDATABASE -f $PENTAHO_HOME/server/data-integration-server/data/postgresql/pentaho_mart_postgresql.sql
 
   fi
