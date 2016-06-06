@@ -1,5 +1,5 @@
 #Dockerfile to build Pentaho's Business Analytics frontend 
-# v 2.1.17
+# v 2.1.18
 # Created using pentaho 'archive' instructions from https://help.pentaho.com/Documentation/5.4/0F0/0P0/020/0B0
 # and info from https://github.com/rxacevedo/docker-pentaho-di/blob/master/Dockerfile
 #
@@ -68,7 +68,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle
 # Setup Pentaho Environment   #
 ###############################
 #Set the target version.  This will be used by the run script to determine if we need to upgrade the version on disk.
-ENV PENTAHO_DI_TARGET_VER="6.0.1.1-398"
+ENV PENTAHO_DI_TARGET_VER="6.0.1.1"
 #ENV PENTAHO_DI_TARGET_VER="6.0.1.2" - When upgrading to 6.0.1.2
 
 ENV PENTAHO_JAVA_HOME=$JAVA_HOME
@@ -124,13 +124,6 @@ ENV SERVICE_ENABLE_CARTE=N
 #Setup auto start process for Carte
 RUN mkdir -p /etc/service/carte; \
 	ln -s /scripts/service_start_carte.sh /etc/service/carte/run;
-
-#Setup scheduled tasks
-RUN echo "*/15 * * * * root (bash -l -c 'python /scripts/repo_import_export.py -f /opt/pentaho/automation/pentaho-di-job-deploy/pdi_public_deploy.xml >> /var/log/repo_import_export.log 2>&1')" > /etc/cron.d/pdi_import_export
-
-#Set the timezone.
-ENV TZ=America/New_York
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 #Cleanup
 RUN apt-get clean; \
